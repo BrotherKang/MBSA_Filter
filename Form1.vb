@@ -1,4 +1,4 @@
-﻿Imports System.IO
+Imports System.IO
 Imports System.Xml
 
 Public Class Form1
@@ -60,7 +60,10 @@ Public Class Form1
                         '判斷更新是否安裝，且等級大於等於3
                         If rdMBSAXML.GetAttribute(5) = "false" And rdMBSAXML.GetAttribute(6) >= 3 Then
                             ' tmpTXT = rdMBSAXML.GetAttribute(3) + " / " + rdMBSAXML.GetAttribute(5) + " / " + rdMBSAXML.GetAttribute(6) + vbCrLf
-                            tmpTXT += "KB" + rdMBSAXML.GetAttribute(3) + vbCrLf
+                            Dim intComp As Integer = tmpTXT.IndexOf(rdMBSAXML.GetAttribute(3))
+                            If intComp = -1 Then
+                                tmpTXT += "KB" + rdMBSAXML.GetAttribute(3) + vbCrLf
+                            End If
                         End If
                     End If
                 Loop
@@ -91,11 +94,11 @@ Public Class Form1
 
             ' 判斷tmpTXT有無資料，決定寫入檔案內容
             If tmpTXT = "" Then
-                fileMbsaXml.WriteLine("  <UpdataData>OS(含OFFICE更新) : 無未更新</UpdataData>")
-                tmpCsvTXT = "OS(含OFFICE更新) : 無未更新"   ' 新增CSV檔案部分
+                fileMbsaXml.WriteLine("  <UpdataData>微軟(KB) : 無未更新</UpdataData>")
+                tmpCsvTXT = "微軟(KB) : 無未更新"   ' 新增CSV檔案部分
             Else
-                fileMbsaXml.WriteLine("    <UpdataData> OS(含OFFICE更新):" + vbCrLf + tmpTXT + "未完成更新</UpdataData>")
-                tmpCsvTXT = """OS(含OFFICE更新):" + vbCrLf + tmpTXT + "未完成更新"""    ' 新增CSV檔案部分
+                fileMbsaXml.WriteLine("    <UpdataData> 微軟(KB):" + vbCrLf + tmpTXT + "未完成更新</UpdataData>")
+                tmpCsvTXT = """微軟(KB):" + vbCrLf + tmpTXT + "未完成更新"""    ' 新增CSV檔案部分
             End If
             fileMbsaXml.WriteLine("</MBSA_Check>")
             fileMbsaXml.Close()
